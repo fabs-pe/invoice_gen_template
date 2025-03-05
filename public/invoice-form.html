@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content=""width=device-width, initial-scale="1.0">
+        <title>Create Invoice</title>
+    </head>
+    <body>
+        <h2>Create an Invoice</h2>
+        <form id="invoiceForm">
+            <label>Invoice Number</label>
+            <input type="text" id="invoiceNumber" required>
+
+            <label>Client Name</label>
+            <input type="text" id="clientName" required>
+
+            <label>Invoice Date</label>
+            <input type="date" id="invoiceDate" required>
+
+            <label>Due Date</label>
+            <input type="date" id="dueDate" required>
+
+            <label>Item Description</label>
+            <textarea id="items" placeholder="Example: Website Development 1 x $1000" required></textarea>
+
+            <label>Total Amount</label>
+            <input type="text" id="totalAmount" required>
+        </form>
+        <script>
+            document.getElementById("invoiceForm").addEventListener("submit", async function(event){
+                event.preventDefault();
+
+                const invoiceData ={
+                    invoiceNumber: document.getElementById("invoiceNumber").value,
+                    clientName: document.getElementById("clientName").value,
+                    invoiceDate: document.getElementById("invoiceDate").value,
+                    dueDate: document.getElementById("dueDate").value,
+                    items: document.getElementById("items").value,
+                    totalAmount: document.getElementById("totalAmount").value
+                };
+
+                const response = await fetch("/generate-invoice", {
+                    method : "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(invoiceData)
+                });
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "invoice.pdf";
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+        </script>
+    </body>
+</html>
