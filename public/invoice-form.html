@@ -37,13 +37,13 @@
                     clientName: document.getElementById("clientName").value,
                     invoiceDate: document.getElementById("invoiceDate").value,
                     dueDate: document.getElementById("dueDate").value,
-                    items: document.getElementById("items").value,
+                    items: document.getElementById("items").value.split("\n"),
                     totalAmount: document.getElementById("totalAmount").value
                 };
-
+                
                 const response = await fetch("/generate-invoice", {
-                    method : "POST",
-                    headers: {"Content-Type": "application/json"},
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(invoiceData)
                 });
 
