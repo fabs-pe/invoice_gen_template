@@ -4,6 +4,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content=""width=device-width, initial-scale="1.0">
         <title>Create Invoice</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            form { max-width: 600px; margin: auto; border: 1px solid; padding: 40px;}
+            label, input, textarea { display: block; width: 60%; margin-bottom: 10px; }
+            button { padding: 10px; background: #007BFF; color: white; border: none; cursor: pointer; }
+            
+       </style>
     </head>
     <body>
         <h2>Create an Invoice</h2>
@@ -26,7 +33,7 @@
             <label>Total Amount</label>
             <input type="text" id="totalAmount" required>
 
-            <button type="submit">Geneate PDF</button>
+            <button class="btn" type="submit">Geneate PDF</button>
         </form>
         <script>
             document.getElementById("invoiceForm").addEventListener("submit", async function(event){
@@ -41,7 +48,7 @@
                     totalAmount: document.getElementById("totalAmount").value
                 };
                 
-                const response = await fetch("/generate-invoice", {
+                const response = await fetch("http://localhost:3000/generate-invoice", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(invoiceData)
